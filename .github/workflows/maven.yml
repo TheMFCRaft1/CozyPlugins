@@ -8,6 +8,9 @@ on:
   release:
     types: [ published ]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -32,7 +35,6 @@ jobs:
           path: |
             cozy-hub/target/cozy-hub-*.jar
             cozy-holograms/target/cozy-holograms-*.jar
-            cozy-npc/target/cozy-npc-*.jar
           if-no-files-found: ignore
 
       - name: Upload JARs to Release
@@ -42,6 +44,5 @@ jobs:
           files: |
             cozy-hub/target/cozy-hub-*.jar
             cozy-holograms/target/cozy-holograms-*.jar
-            cozy-npc/target/cozy-npc-*.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
