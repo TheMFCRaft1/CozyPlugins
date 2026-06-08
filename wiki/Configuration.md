@@ -13,13 +13,13 @@ spawn:
 
 # Join Title
 title:
-  join-title: "&aWillkommen!"
-  join-subtitle: "&7Schön dass du da bist, &f{player}"
+  join-title: "&aWelcome!"
+  join-subtitle: "&7Glad to have you here, &f{player}"
   fade-in: 10                 # Title fade-in ticks
   stay: 60                    # Title stay ticks
   fade-out: 20                # Title fade-out ticks
   show-actionbar: false       # Show actionbar after title
-  actionbar-message: "&eWillkommen auf dem Server!"
+  actionbar-message: "&eWelcome to the server!"
 
 # Starter Kit (first join only)
 starter-kit:
@@ -55,22 +55,22 @@ hotbar:
     0:
       slot: 0
       material: COMPASS
-      name: "&eServer wählen"
-      lore: ["&7Rechtsklick zum Öffnen"]
+      name: "&eServer Selector"
+      lore: ["&7Right-click to open"]
       action: OPEN_NAVIGATOR
       glow: true
     1:
       slot: 4
       material: ENDER_EYE
-      name: "&bSpieler ausblenden"
-      lore: ["&7Rechtsklick zum Umschalten"]
+      name: "&bToggle Players"
+      lore: ["&7Right-click to toggle"]
       action: TOGGLE_VISIBILITY
       glow: false
     2:
       slot: 8
       material: BED
       name: "&cDisconnect"
-      lore: ["&7Rechtsklick zum Verlassen"]
+      lore: ["&7Right-click to leave"]
       action: DISCONNECT
       glow: false
 
@@ -81,10 +81,10 @@ sidebar:
   update-interval: 20          # Ticks between updates
   lines:
     - "&7"
-    - "&fSpieler: &a{online}"
-    - "&fWelt: &a{world}"
+    - "&fPlayers: &a{online}"
+    - "&fWorld: &a{world}"
     - "&7"
-    - "&fDein Rang: &a{rank}"
+    - "&fYour Rank: &a{rank}"
     - "&7"
     - "&ewww.example.net"
 
@@ -106,10 +106,10 @@ visibility:
   hotbar-slot: 8               # Slot for visibility toggle item
   item-show:
     material: ENDER_EYE
-    name: "&aSpieler einblenden"
+    name: "&aShow Players"
   item-hide:
     material: ENDER_EYE
-    name: "&cSpieler ausblenden"
+    name: "&cHide Players"
 
 # Cosmetics
 cosmetics:
@@ -146,21 +146,21 @@ servers:
     slot: 11
     name: "&aSurvival"
     material: GRASS_BLOCK
-    lore: ["&7Klicke um zu verbinden"]
+    lore: ["&7Click to connect"]
     server: "survival"
     action: SERVER_CONNECT
   skyblock:
     slot: 13
     name: "&9Skyblock"
     material: END_STONE
-    lore: ["&7Klicke um zu verbinden"]
+    lore: ["&7Click to connect"]
     server: "skyblock"
     action: SERVER_CONNECT
   creative:
     slot: 15
     name: "&bCreative"
     material: DIAMOND_BLOCK
-    lore: ["&7Klicke um zu verbinden"]
+    lore: ["&7Click to connect"]
     server: "creative"
     action: SERVER_CONNECT
 ```
@@ -172,18 +172,18 @@ prefix: "&8[&aCo&2zy&8] &r"
 
 join-message: "&7+ &a{player}"
 quit-message: "&7- &c{player}"
-first-join-message: "&7&l* &e&l{player} &7hat den Server zum ersten Mal betreten!"
+first-join-message: "&7&l* &e&l{player} &7has joined the server for the first time!"
 
-visibility-shown: "&aSpieler werden jetzt angezeigt."
-visibility-hidden: "&cSpieler werden jetzt ausgeblendet."
+visibility-shown: "&aPlayers are now visible."
+visibility-hidden: "&cPlayers are now hidden."
 
 command:
-  hub-usage: "&cVerwendung: /hub [setspawn|reload]"
-  spawn-not-set: "&cDer Spawn wurde noch nicht gesetzt!"
-  teleported: "&aDu wurdest zum Hub-Spawn teleportiert!"
-  spawn-set: "&aDer Hub-Spawn wurde gesetzt!"
-  reloaded: "&aDie Konfiguration wurde neu geladen!"
-  no-permission: "&cDazu hast du keine Berechtigung!"
+  hub-usage: "&cUsage: /hub [setspawn|reload]"
+  spawn-not-set: "&cSpawn has not been set yet!"
+  teleported: "&aYou have been teleported to the hub spawn!"
+  spawn-set: "&aHub spawn has been set!"
+  reloaded: "&aConfiguration has been reloaded!"
+  no-permission: "&cYou don't have permission to do that!"
 ```
 
 ## Placeholders
@@ -196,6 +196,6 @@ The following placeholders are available in sidebar, tab list, and messages:
 | `{online}` | Number of online players |
 | `{max}` | Maximum player slots |
 | `{world}` | Current world name |
-| `{rank}` | Player's rank (default: "Spieler") |
+| `{rank}` | Player's rank (default: "Player") |
 
 Color codes use `&` prefix (e.g., `&a` for green, `&6` for gold).
