@@ -1,0 +1,5 @@
+# CozyHolograms Configuration
+
+settings:
+  update-interval: 20
+  view-distance: 48

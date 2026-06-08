@@ -1,0 +1,34 @@
+name: CozyHolograms
+main: dev.cozy.holograms.CozyHolograms
+api-version: '1.21'
+version: 1.0.0
+description: Hologram plugin for Minecraft servers
+depend: []
+softdepend: [PlaceholderAPI]
+
+commands:
+  holo:
+    description: Manage holograms
+    usage: /<command> <subcommand>
+    aliases: [holograms, ch]
+    permission: cozyholo.use
+
+permissions:
+  cozyholo.use:
+    description: Allows using the /holo command
+    default: true
+  cozyholo.create:
+    description: Allows creating holograms
+    default: op
+  cozyholo.delete:
+    description: Allows deleting holograms
+    default: op
+  cozyholo.edit:
+    description: Allows editing holograms
+    default: op
+  cozyholo.list:
+    description: Allows listing holograms
+    default: true
+  cozyholo.admin:
+    description: Allows admin commands (reload)
+    default: op

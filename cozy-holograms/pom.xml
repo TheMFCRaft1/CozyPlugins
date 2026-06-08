@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
 
     <name>Cozy Holograms</name>
+    <description>Hologram plugin for Minecraft servers</description>
 
     <dependencies>
         <dependency>
@@ -22,4 +23,20 @@
             <version>${project.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <finalName>cozy-holograms-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
