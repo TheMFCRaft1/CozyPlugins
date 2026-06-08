@@ -84,7 +84,7 @@ public final class UpdateChecker {
         String currentVersion = plugin.getDescription().getVersion();
 
         if (!currentVersion.equalsIgnoreCase(latestVersion)) {
-            plugin.getLogger().info("A new version is available: {0} (current: {1})", latestVersion, currentVersion);
+            plugin.getLogger().log(Level.INFO, "A new version is available: {0} (current: {1})", new Object[]{latestVersion, currentVersion});
             plugin.getLogger().info("Download it at: https://modrinth.com/project/" + modrinthId);
         } else {
             plugin.getLogger().info("You are running the latest version.");
