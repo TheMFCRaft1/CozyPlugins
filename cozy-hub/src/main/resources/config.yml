@@ -6,13 +6,13 @@ spawn:
   reset-inventory-on-join: false
 
 title:
-  join-title: "&aWillkommen!"
-  join-subtitle: "&7Schön dass du da bist, &f{player}"
+  join-title: "&aWelcome!"
+  join-subtitle: "&7Glad to have you here, &f{player}"
   fade-in: 10
   stay: 60
   fade-out: 20
   show-actionbar: false
-  actionbar-message: "&eWillkommen auf dem Server!"
+  actionbar-message: "&eWelcome to the server!"
 
 starter-kit:
   items:
@@ -44,17 +44,17 @@ hotbar:
     0:
       slot: 0
       material: COMPASS
-      name: "&eServer wählen"
+      name: "&eServer Selector"
       lore:
-        - "&7Rechtsklick zum Öffnen"
+        - "&7Right-click to open"
       action: OPEN_NAVIGATOR
       glow: true
     1:
       slot: 4
       material: ENDER_EYE
-      name: "&bSpieler ausblenden"
+      name: "&bToggle Players"
       lore:
-        - "&7Rechtsklick zum Umschalten"
+        - "&7Right-click to toggle"
       action: TOGGLE_VISIBILITY
       glow: false
     2:
@@ -62,7 +62,7 @@ hotbar:
       material: BED
       name: "&cDisconnect"
       lore:
-        - "&7Rechtsklick zum Verlassen"
+        - "&7Right-click to leave"
       action: DISCONNECT
       glow: false
 
@@ -72,10 +72,10 @@ sidebar:
   update-interval: 20
   lines:
     - "&7"
-    - "&fSpieler: &a{online}"
-    - "&fWelt: &a{world}"
+    - "&fPlayers: &a{online}"
+    - "&fWorld: &a{world}"
     - "&7"
-    - "&fDein Rang: &a{rank}"
+    - "&fYour Rank: &a{rank}"
     - "&7"
     - "&ewww.example.net"
 
@@ -95,10 +95,10 @@ visibility:
   hotbar-slot: 8
   item-show:
     material: ENDER_EYE
-    name: "&aSpieler einblenden"
+    name: "&aShow Players"
   item-hide:
     material: ENDER_EYE
-    name: "&cSpieler ausblenden"
+    name: "&cHide Players"
 
 cosmetics:
   join-firework:
@@ -135,7 +135,7 @@ servers:
     name: "&aSurvival"
     material: GRASS_BLOCK
     lore:
-      - "&7Klicke um zu verbinden"
+      - "&7Click to connect"
     server: "survival"
     action: SERVER_CONNECT
   skyblock:
@@ -143,7 +143,7 @@ servers:
     name: "&9Skyblock"
     material: END_STONE
     lore:
-      - "&7Klicke um zu verbinden"
+      - "&7Click to connect"
     server: "skyblock"
     action: SERVER_CONNECT
   creative:
@@ -151,6 +151,6 @@ servers:
     name: "&bCreative"
     material: DIAMOND_BLOCK
     lore:
-      - "&7Klicke um zu verbinden"
+      - "&7Click to connect"
     server: "creative"
     action: SERVER_CONNECT

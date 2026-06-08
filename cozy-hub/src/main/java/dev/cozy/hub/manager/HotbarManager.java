@@ -132,7 +132,7 @@ public final class HotbarManager {
                 visibilityManager.toggleVisibility(player);
                 boolean hidden = visibilityManager.isCurrentlyHidden(player.getUniqueId());
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        hidden ? "&cSpieler ausgeblendet" : "&aSpieler eingeblendet"));
+                        hidden ? "&cPlayers hidden" : "&aPlayers visible"));
                 updateVisibilityItem(player, hidden);
             }
             case DISCONNECT -> player.kickPlayer(ChatColor.translateAlternateColorCodes('&',

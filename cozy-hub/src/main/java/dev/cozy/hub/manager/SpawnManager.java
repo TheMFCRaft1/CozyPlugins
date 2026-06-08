@@ -119,7 +119,7 @@ public final class SpawnManager {
                         || current.getY() != last.getY()
                         || current.getZ() != last.getZ())) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                            "&cTeleportation abgebrochen!"));
+                            "&cTeleportation cancelled!"));
                     cancel();
                     removeTeleporting(player.getUniqueId());
                     return;
@@ -133,7 +133,7 @@ public final class SpawnManager {
                 }
 
                 player.sendActionBar(ChatColor.translateAlternateColorCodes('&',
-                        "&eTeleportiere in &f" + remaining + "s&e..."));
+                        "&eTeleporting in &f" + remaining + "s&e..."));
                 movementListener.setLastLocation(player.getUniqueId(), player.getLocation().clone());
                 remaining--;
             }
