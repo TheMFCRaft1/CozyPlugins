@@ -2,9 +2,33 @@ name: CozyHub
 main: dev.cozy.hub.CozyHub
 api-version: '1.21'
 version: 1.0.0
+description: A comprehensive hub plugin with spawn, navigator, sidebar, and more
 
 commands:
   hub:
     description: Hub commands
     usage: /<command> [setspawn|reload]
+    permission: cozyhub.use
     aliases: [hub]
+  visibility:
+    description: Toggle player visibility
+    usage: /<command>
+    permission: cozyhub.visibility
+    aliases: [vis]
+
+permissions:
+  cozyhub.use:
+    description: Allows using the /hub command
+    default: true
+  cozyhub.setspawn:
+    description: Allows setting the hub spawn
+    default: op
+  cozyhub.admin:
+    description: Allows reloading the plugin configuration
+    default: op
+  cozyhub.visibility:
+    description: Allows toggling player visibility
+    default: true
+  cozyhub.doublejump:
+    description: Allows using the double jump feature
+    default: true

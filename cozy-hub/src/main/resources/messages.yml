@@ -1,7 +1,11 @@
 prefix: "&8[&aCo&2zy&8] &r"
 
-join: "&7{player} &ahat den Server betreten"
-quit: "&7{player} &ahat den Server verlassen"
+join-message: "&7+ &a{player}"
+quit-message: "&7- &c{player}"
+first-join-message: "&7&l* &e&l{player} &7hat den Server zum ersten Mal betreten!"
+
+visibility-shown: "&aSpieler werden jetzt angezeigt."
+visibility-hidden: "&cSpieler werden jetzt ausgeblendet."
 
 command:
   hub-usage: "&cVerwendung: /hub [setspawn|reload]"

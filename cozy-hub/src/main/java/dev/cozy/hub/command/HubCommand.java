@@ -1,7 +1,9 @@
-package dev.cozy.hub;
+package dev.cozy.hub.command;
 
 import dev.cozy.core.ConfigManager;
 import dev.cozy.core.MessageManager;
+import dev.cozy.hub.CozyHub;
+import dev.cozy.hub.manager.SpawnManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -10,6 +12,8 @@ import org.bukkit.entity.Player;
 
 /**
  * Handles the /hub command with subcommands setspawn and reload.
+ * <p>
+ * Requires {@code cozyhub.use} for base command, {@code cozyhub.setspawn} for setspawn.
  */
 public final class HubCommand implements CommandExecutor {
 
@@ -26,7 +30,8 @@ public final class HubCommand implements CommandExecutor {
      * @param configManager  the config manager
      * @param messageManager the message manager
      */
-    public HubCommand(CozyHub plugin, SpawnManager spawnManager, ConfigManager configManager, MessageManager messageManager) {
+    public HubCommand(CozyHub plugin, SpawnManager spawnManager,
+                      ConfigManager configManager, MessageManager messageManager) {
         this.plugin = plugin;
         this.spawnManager = spawnManager;
         this.configManager = configManager;
@@ -50,12 +55,14 @@ public final class HubCommand implements CommandExecutor {
         }
     }
 
-    /**
-     * Teleports the sender to the hub spawn.
-     */
     private boolean handleTeleport(CommandSender sender) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "This command can only be used by players.");
+            return true;
+        }
+
+        if (!sender.hasPermission("cozyhub.use")) {
+            messageManager.send(sender, "command.no-permission");
             return true;
         }
 
@@ -68,9 +75,6 @@ public final class HubCommand implements CommandExecutor {
         return true;
     }
 
-    /**
-     * Sets the hub spawn to the sender's current location.
-     */
     private boolean handleSetSpawn(CommandSender sender) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "This command can only be used by players.");
@@ -82,14 +86,11 @@ public final class HubCommand implements CommandExecutor {
             return true;
         }
 
-        spawnManager.setSpawn(player.getLocation());
+        spawnManager.setSpawn(player);
         messageManager.send(sender, "command.spawn-set");
         return true;
     }
 
-    /**
-     * Reloads the plugin configuration.
-     */
     private boolean handleReload(CommandSender sender) {
         if (!sender.hasPermission("cozyhub.admin")) {
             messageManager.send(sender, "command.no-permission");
