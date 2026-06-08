@@ -1,0 +1,10 @@
+name: CozyHub
+main: dev.cozy.hub.CozyHub
+api-version: '1.21'
+version: 1.0.0
+
+commands:
+  hub:
+    description: Hub commands
+    usage: /<command> [setspawn|reload]
+    aliases: [hub]
