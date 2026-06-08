@@ -5,6 +5,8 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  release:
+    types: [ published ]
 
 jobs:
   build:
@@ -23,7 +25,7 @@ jobs:
       - name: Build with Maven
         run: mvn -B clean package --file pom.xml
 
-      - name: Upload JARs
+      - name: Upload JARs (Artifact)
         uses: actions/upload-artifact@v4
         with:
           name: cozy-plugins
@@ -32,3 +34,14 @@ jobs:
             cozy-holograms/target/cozy-holograms-*.jar
             cozy-npc/target/cozy-npc-*.jar
           if-no-files-found: ignore
+
+      - name: Upload JARs to Release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            cozy-hub/target/cozy-hub-*.jar
+            cozy-holograms/target/cozy-holograms-*.jar
+            cozy-npc/target/cozy-npc-*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
