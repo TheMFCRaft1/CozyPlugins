@@ -1,0 +1,16 @@
+# CozyHub Configuration
+
+hub:
+  teleport-on-join: true
+  spawn: {}
+
+messages:
+  join: "&7{player} &ahat den Server betreten"
+  quit: "&7{player} &ahat den Server verlassen"
+  command:
+    hub-usage: "&cVerwendung: /hub [setspawn|reload]"
+    spawn-not-set: "&cDer Spawn wurde noch nicht gesetzt!"
+    teleported: "&aDu wurdest zum Hub-Spawn teleportiert!"
+    spawn-set: "&aDer Hub-Spawn wurde gesetzt!"
+    reloaded: "&aDie Konfiguration wurde neu geladen!"
+    no-permission: "&cDazu hast du keine Berechtigung!"
