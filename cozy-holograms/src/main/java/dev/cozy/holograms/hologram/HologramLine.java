@@ -2,6 +2,7 @@ package dev.cozy.holograms.hologram;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.entity.Display;
@@ -12,7 +13,9 @@ import org.joml.AxisAngle4f;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents a single line within a hologram.
@@ -21,6 +24,33 @@ import java.util.List;
  * billboard, background, shadow, and alignment settings.
  */
 public final class HologramLine {
+
+    private static final Map<Character, String> COLOR_CODES = new HashMap<>();
+
+    static {
+        COLOR_CODES.put('0', "<black>");
+        COLOR_CODES.put('1', "<dark_blue>");
+        COLOR_CODES.put('2', "<dark_green>");
+        COLOR_CODES.put('3', "<dark_aqua>");
+        COLOR_CODES.put('4', "<dark_red>");
+        COLOR_CODES.put('5', "<dark_purple>");
+        COLOR_CODES.put('6', "<gold>");
+        COLOR_CODES.put('7', "<gray>");
+        COLOR_CODES.put('8', "<dark_gray>");
+        COLOR_CODES.put('9', "<blue>");
+        COLOR_CODES.put('a', "<green>");
+        COLOR_CODES.put('b', "<aqua>");
+        COLOR_CODES.put('c', "<red>");
+        COLOR_CODES.put('d', "<light_purple>");
+        COLOR_CODES.put('e', "<yellow>");
+        COLOR_CODES.put('f', "<white>");
+        COLOR_CODES.put('k', "<obfuscated>");
+        COLOR_CODES.put('l', "<bold>");
+        COLOR_CODES.put('m', "<strikethrough>");
+        COLOR_CODES.put('n', "<underlined>");
+        COLOR_CODES.put('o', "<italic>");
+        COLOR_CODES.put('r', "<reset>");
+    }
 
     private String rawText;
     private TextDisplay entity;
@@ -85,7 +115,7 @@ public final class HologramLine {
     public void update(String text) {
         this.rawText = text;
         if (entity != null && !entity.isDead()) {
-            Component component = MiniMessage.miniMessage().deserialize(text);
+            Component component = parseText(text);
             entity.text(component);
         }
     }
@@ -100,9 +130,47 @@ public final class HologramLine {
         this.rawText = text;
         if (entity != null && !entity.isDead()) {
             String resolved = resolvePlaceholders(text, viewer);
-            Component component = MiniMessage.miniMessage().deserialize(resolved);
+            Component component = parseText(resolved);
             entity.text(component);
         }
+    }
+
+    /**
+     * Parses text into a Component, handling both legacy &amp; codes and MiniMessage tags.
+     *
+     * @param text the text to parse
+     * @return the parsed Component
+     */
+    private Component parseText(String text) {
+        if (text.contains("&")) {
+            text = translateLegacyCodes(text);
+        }
+        return MiniMessage.miniMessage().deserialize(text);
+    }
+
+    /**
+     * Translates legacy &amp;color codes to MiniMessage tags.
+     *
+     * @param text the text with legacy codes
+     * @return text with MiniMessage tags
+     */
+    private String translateLegacyCodes(String text) {
+        char[] chars = text.toCharArray();
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '&' && i + 1 < chars.length) {
+                String tag = COLOR_CODES.get(Character.toLowerCase(chars[i + 1]));
+                if (tag != null) {
+                    result.append(tag);
+                    i++;
+                } else {
+                    result.append(chars[i]);
+                }
+            } else {
+                result.append(chars[i]);
+            }
+        }
+        return result.toString();
     }
 
     /**

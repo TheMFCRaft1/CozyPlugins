@@ -1,11 +1,11 @@
 package dev.cozy.holograms.command;
 
-import dev.cozy.core.ConfigManager;
 import dev.cozy.core.MessageManager;
 import dev.cozy.holograms.CozyHolograms;
 import dev.cozy.holograms.hologram.Hologram;
 import dev.cozy.holograms.manager.HologramManager;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Handles the /holo command with all subcommands.
  * <p>
- * Supports: create, delete, edit, addline, removeline, list, teleport, reload, info.
+ * Supports: create, delete, edit, addline, removeline, list, teleport, move, center, reload, info.
  */
 public final class HoloCommand implements CommandExecutor, TabCompleter {
 
@@ -31,9 +31,9 @@ public final class HoloCommand implements CommandExecutor, TabCompleter {
     /**
      * Creates a new HoloCommand.
      *
-     * @param plugin         the owning plugin
+     * @param plugin          the owning plugin
      * @param hologramManager the hologram manager
-     * @param messageManager the message manager
+     * @param messageManager  the message manager
      */
     public HoloCommand(CozyHolograms plugin, HologramManager hologramManager, MessageManager messageManager) {
         this.plugin = plugin;
@@ -102,6 +102,20 @@ public final class HoloCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 return handleTeleport(player, args);
+            }
+            case "move", "mv" -> {
+                if (!player.hasPermission("cozyholo.edit")) {
+                    messageManager.send(sender, "command.no-permission");
+                    return true;
+                }
+                return handleMove(player, args);
+            }
+            case "center" -> {
+                if (!player.hasPermission("cozyholo.edit")) {
+                    messageManager.send(sender, "command.no-permission");
+                    return true;
+                }
+                return handleCenter(player, args);
             }
             case "reload" -> {
                 if (!player.hasPermission("cozyholo.admin")) {
@@ -278,6 +292,69 @@ public final class HoloCommand implements CommandExecutor, TabCompleter {
         return true;
     }
 
+    private boolean handleMove(Player player, String[] args) {
+        if (args.length < 2) {
+            messageManager.send(player, "command.holo-move-usage");
+            return true;
+        }
+
+        String id = args[1];
+        var holo = hologramManager.getHologram(id);
+        if (holo.isEmpty()) {
+            messageManager.send(player, "command.holo-not-found");
+            return true;
+        }
+
+        Location target;
+        if (args.length >= 5) {
+            try {
+                double x = Double.parseDouble(args[2]);
+                double y = Double.parseDouble(args[3]);
+                double z = Double.parseDouble(args[4]);
+                target = new Location(player.getWorld(), x, y, z);
+            } catch (NumberFormatException e) {
+                messageManager.send(player, "command.holo-invalid-coords");
+                return true;
+            }
+        } else {
+            target = player.getLocation();
+        }
+
+        holo.get().teleport(target);
+        hologramManager.saveAll();
+        messageManager.send(player, "command.holo-moved");
+        return true;
+    }
+
+    private boolean handleCenter(Player player, String[] args) {
+        if (args.length < 2) {
+            messageManager.send(player, "command.holo-center-usage");
+            return true;
+        }
+
+        String id = args[1];
+        var holo = hologramManager.getHologram(id);
+        if (holo.isEmpty()) {
+            messageManager.send(player, "command.holo-not-found");
+            return true;
+        }
+
+        Location current = holo.get().getLocation();
+        Location centered = new Location(
+                current.getWorld(),
+                player.getLocation().getX(),
+                current.getY(),
+                player.getLocation().getZ(),
+                current.getYaw(),
+                current.getPitch()
+        );
+
+        holo.get().teleport(centered);
+        hologramManager.saveAll();
+        messageManager.send(player, "command.holo-centered");
+        return true;
+    }
+
     private boolean handleReload(Player player) {
         hologramManager.stopUpdateTask();
         hologramManager.despawnAll();
@@ -323,11 +400,12 @@ public final class HoloCommand implements CommandExecutor, TabCompleter {
 
         if (args.length == 1) {
             completions.addAll(Arrays.asList("create", "delete", "edit", "addline", "removeline",
-                    "list", "teleport", "tp", "reload", "info"));
+                    "list", "teleport", "tp", "move", "mv", "center", "reload", "info"));
         } else if (args.length == 2) {
             String sub = args[0].toLowerCase();
             if (sub.equals("delete") || sub.equals("edit") || sub.equals("addline")
                     || sub.equals("removeline") || sub.equals("teleport") || sub.equals("tp")
+                    || sub.equals("move") || sub.equals("mv") || sub.equals("center")
                     || sub.equals("info")) {
                 completions.addAll(hologramManager.getAllHolograms().stream()
                         .map(Hologram::getId)
@@ -342,6 +420,18 @@ public final class HoloCommand implements CommandExecutor, TabCompleter {
                         completions.add(String.valueOf(i));
                     }
                 });
+            } else if ((sub.equals("move") || sub.equals("mv")) && sender instanceof Player player) {
+                completions.add(String.valueOf(Math.round(player.getLocation().getX())));
+            }
+        } else if (args.length == 4) {
+            String sub = args[0].toLowerCase();
+            if ((sub.equals("move") || sub.equals("mv")) && sender instanceof Player player) {
+                completions.add(String.valueOf(Math.round(player.getLocation().getY())));
+            }
+        } else if (args.length == 5) {
+            String sub = args[0].toLowerCase();
+            if ((sub.equals("move") || sub.equals("mv")) && sender instanceof Player player) {
+                completions.add(String.valueOf(Math.round(player.getLocation().getZ())));
             }
         }
 
